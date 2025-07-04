@@ -44,6 +44,8 @@ A minimal UI is planned (or integrated) that allows:
 ---
 
 ## 📂 Project Structure
+
+```bash
 e-commerce-assessment/
 ├── node_modules/
 ├── src/
@@ -51,13 +53,15 @@ e-commerce-assessment/
 ├── package.json
 ├── tsconfig.json
 ├── README.md
+```
 
 ---
 
 ## ✅ Demo Credentials
-Website : https://automationexercise.com/
-Username: kavib31092@fenexy.com
-Password: kavib31092@fenexy.com
+
+- **Website** – https://automationexercise.com/
+- **Username** – kavib31092@fenexy.com
+- **Password** – kavib31092@fenexy.com
 
 ---
 
