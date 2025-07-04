@@ -43,6 +43,24 @@ A minimal UI is planned (or integrated) that allows:
 
 ---
 
+## 📂 Project Structure
+e-commerce-assessment/
+├── node_modules/
+├── src/
+│   └── scraper.ts
+├── package.json
+├── tsconfig.json
+├── README.md
+
+---
+
+## ✅ Demo Credentials
+Website : https://automationexercise.com/
+Username: kavib31092@fenexy.com
+Password: kavib31092@fenexy.com
+
+---
+
 ## 🚀 Getting Started
 
 ```bash
@@ -56,17 +74,5 @@ npm install
 # Run the scraper
 npx ts-node src/scraper.ts
 
-✅ Demo Credentials
-Website : https://automationexercise.com/
-Username: kavib31092@fenexy.com
-Password: kavib31092@fenexy.com
 
-📂 Project Structure
-e-commerce-assessment/
-├── node_modules/
-├── src/
-│   └── scraper.ts
-├── package.json
-├── tsconfig.json
-├── README.md
 
