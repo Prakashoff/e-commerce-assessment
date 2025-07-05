@@ -2,7 +2,7 @@
 
 ## 📌 About the Task
 
-This project is an automated scraper built using **TypeScript** and **Puppeteer**. The scraper simulates user behavior on an e-commerce website and completes the full cart workflow.
+This project is an automated scraper built using **TypeScript** and **Playwright**. The scraper simulates user behavior on an e-commerce website and completes the full cart workflow.
 
 ---
 
@@ -37,7 +37,7 @@ A minimal UI is planned (or integrated) that allows:
 ## 🛠️ Tech Stack
 
 - **TypeScript** – main language
-- **Puppeteer** – browser automation
+- **Playwright** – browser automation
 - **Node.js** – runtime
 - **UI (optional)**
 
