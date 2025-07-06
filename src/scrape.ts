@@ -1,12 +1,20 @@
 import { chromium, Page } from 'playwright';
 
 const scraper = async (): Promise<void> => {
+    let dummyEmail: string;
+    let dummyPassword: string;
+
+    try {
     const args = process.argv.slice(2);
-    const dummyEmail = args[0];
-    const dummyPassword = args[1];
+    dummyEmail = args[0];
+    dummyPassword = args[1];
+    } catch (err) {
+    dummyEmail = 'kavib31092@fenexy.com';
+    dummyPassword = 'kavib31092@fenexy.com';
+    }
 
     if (!dummyEmail || !dummyPassword) {
-        console.error("❌ Username or password not provided.");
+        console.error("Username or password not provided.");
         process.exit(1);
     }
 
@@ -78,7 +86,6 @@ const scraper = async (): Promise<void> => {
         return results;
     });
 
-    // ✅ This is the ONLY way to send data to Streamlit
     console.log(JSON.stringify(tableData, null, 2));
 
     await browser.close();
