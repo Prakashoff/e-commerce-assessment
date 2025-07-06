@@ -1,7 +1,16 @@
 import { chromium, Page } from 'playwright';
 
-(async (): Promise<void> => {
-    const browser = await chromium.launch({ headless: true});
+const scraper = async (): Promise<void> => {
+    const args = process.argv.slice(2);
+    const dummyEmail = args[0];
+    const dummyPassword = args[1];
+
+    if (!dummyEmail || !dummyPassword) {
+        console.error("❌ Username or password not provided.");
+        process.exit(1);
+    }
+
+    const browser = await chromium.launch({ headless: true });
     const page: Page = await browser.newPage();
     console.log('Opening the browser...');
 
@@ -9,13 +18,7 @@ import { chromium, Page } from 'playwright';
 
     const loginSelector = 'a[href="/login"]';
     await page.waitForSelector(loginSelector);
-    console.log('Clicking the login button...');
     await page.click(loginSelector);
-    const args = process.argv.slice(2);
-    const dummyEmail = args[0];
-    const dummyPassword = args[1];
-    // const dummyEmail = 'kavib31092@fenexy.com';
-    // const dummyPassword = 'kavib31092@fenexy.com';
 
     const userEmailSelector = "input[type='email']";
     const userPasswordSelector = "input[type='password']";
@@ -28,32 +31,29 @@ import { chromium, Page } from 'playwright';
     console.log('Logged in successfully.');
 
     for (let i = 1; i <= 12; i++) {
-        if (![10, 9].includes(i)){
+        if (![10, 9].includes(i)) {
             let cartSelector = `a[data-product-id="${i}"]`;
-            console.log(cartSelector);
             try {
-            await page.waitForSelector(cartSelector, { timeout: 5000 });
-            await page.click(cartSelector);
-            console.log(`Clicked: ${cartSelector}`);
-            await page.waitForTimeout(2000);
-            const continueShoppingSelector = 'button[data-dismiss="modal"]';
-            await page.waitForSelector(continueShoppingSelector, { timeout: 5000 });
-            await page.click(continueShoppingSelector);
-            await page.waitForTimeout(2000);
-        } catch (err) {
-            if (err instanceof Error) {
-                console.error(`Failed to click ${cartSelector}: ${err.message}`);
-            } else {
-                console.error(`Failed to click ${cartSelector}:`, err);
+                await page.waitForSelector(cartSelector, { timeout: 5000 });
+                await page.click(cartSelector);
+                await page.waitForTimeout(2000);
+                const continueShoppingSelector = 'button[data-dismiss="modal"]';
+                await page.waitForSelector(continueShoppingSelector, { timeout: 5000 });
+                await page.click(continueShoppingSelector);
+                await page.waitForTimeout(2000);
+            } catch (err) {
+                if (err instanceof Error) {
+                    console.error(`Failed to click ${cartSelector}: ${err.message}`);
+                } else {
+                    console.error(`Failed to click ${cartSelector}:`, err);
+                }
             }
-        }
         }
     }
 
     const cartLinkSelector = 'a[href="/view_cart"]';
     await page.waitForSelector(cartLinkSelector);
     await page.click(cartLinkSelector);
-    console.log('Navigated to cart.');
 
     await page.waitForSelector('table.table.table-condensed');
 
@@ -78,7 +78,10 @@ import { chromium, Page } from 'playwright';
         return results;
     });
 
-    console.log(tableData);
+    // ✅ This is the ONLY way to send data to Streamlit
+    console.log(JSON.stringify(tableData, null, 2));
 
     await browser.close();
-})();
+};
+
+scraper();
