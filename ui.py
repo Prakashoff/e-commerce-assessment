@@ -6,7 +6,7 @@ import os
 USERNAME = "kavib31092@fenexy.com"
 PASSWORD = "kavib31092@fenexy.com"
 
-
+# Initialize session state
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
@@ -23,7 +23,6 @@ def login_page():
             if username == USERNAME and password == PASSWORD:
                 st.session_state.logged_in = True
                 st.success("✅ Login successful!")
-                st.experimental_rerun()  # Refresh to go to main app
             else:
                 st.error("❌ Invalid username or password")
 
@@ -46,14 +45,16 @@ def main_app():
     ]
     for step in steps:
         st.markdown(f"- {step}")
-    current_path = os.getcwd()
-    ts_path = os.path.join(current_path, 'src\scrape.ts')
-    st.markdown("### 📦 JSON Output:")
-    cmd = (
-    f'ts-node "{ts_path}" '
-    f'{USERNAME} {PASSWORD}'
-)
 
+    st.markdown("### 📦 JSON Output:")
+
+    # Get absolute path to scrape.ts safely
+    ts_path = os.path.join(os.getcwd(), "src", "scrape.ts")
+
+    # Build the command string
+    cmd = f'ts-node "{ts_path}" {USERNAME} {PASSWORD}'
+
+    # Run the scraper
     result = subprocess.run(
         cmd,
         capture_output=True,
@@ -61,8 +62,8 @@ def main_app():
         shell=True
     )
 
+    # Extract JSON from stdout
     stdout = result.stdout.strip()
-
     json_start = stdout.find('[')
     if json_start != -1:
         json_str = stdout[json_start:]
@@ -72,12 +73,13 @@ def main_app():
             st.json(data)
         except json.JSONDecodeError:
             st.error("❌ Failed to parse JSON.")
-            st.text(json_str)
+            st.code(json_str, language="text")
     else:
         st.error("❌ No JSON data found in output.")
-        st.text(stdout)
+        st.code(stdout, language="text")
 
 
+# Main logic to show appropriate page
 if st.session_state.logged_in:
     main_app()
 else:
